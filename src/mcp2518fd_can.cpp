@@ -66,6 +66,23 @@ byte mcp2518fd::begin(uint32_t speedset, const byte clockset) {
 }
 
 /*********************************************************************************************************
+** Function name:           begin
+** Descriptions:            Init can with operation mode set bus speed.
+                            It also sets the external oscillator frequency and the used SPI bus.
+                            The SPI bus must be initialized before this function called.
+*********************************************************************************************************/
+byte mcp2518fd::begin(const CAN_OPERATION_MODE mode, uint32_t speedset, const byte clockset, SPIClass *_pSPI) {
+    setSPI(_pSPI);
+    setMode(mode);
+
+  /* compatible layer translation */
+    speedset = bittime_compat_to_mcp2518fd(speedset);
+    if(speedset > CAN20_1000KBPS)__flgFDF = 1;
+    byte res = mcp2518fd_init(speedset, clockset);
+    return res;
+}
+
+/*********************************************************************************************************
 ** Function name:           mcp2518fd_reset
 ** Descriptions:            reset the device
 *********************************************************************************************************/

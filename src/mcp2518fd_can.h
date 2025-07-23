@@ -114,6 +114,8 @@ class mcp2518fd : public MCP_CAN_1 {
     virtual byte begin(uint32_t speedset,
     const byte clockset = MCP2518FD_20MHz); // init can
     
+    byte begin(const CAN_OPERATION_MODE mode, uint32_t speedset, const byte clockset, SPIClass *_pSPI);
+    
     bool __flgFDF = 0;                      // 1: FD, 0: 2.0
 
     virtual byte CANFDSPI_FilterDisable(CAN_FILTER filter);
